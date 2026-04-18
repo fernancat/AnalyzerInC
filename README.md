@@ -53,8 +53,11 @@ El proyecto usa manejo manual de memoria (`calloc`, `realloc`, `free`) y libera 
 
 ## Imagenes de Funcionamiento
 
-1. Primera Prueba 
-![alt text](image.png)
+1. Primera prueba
+![Primera prueba](image.png)
 
+2. Segunda prueba
+![Segunda prueba](image-1.png)
 
-2. 
+3. Tercera prueba
+![Tercera prueba](image-2.png)
