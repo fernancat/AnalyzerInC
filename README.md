@@ -50,3 +50,11 @@ Esto genera el ejecutable `Validador`.
 ## Nota de memoria
 
 El proyecto usa manejo manual de memoria (`calloc`, `realloc`, `free`) y libera estructuras tanto en rutas de exito como de error.
+
+## Imagenes de Funcionamiento
+
+1. Primera Prueba 
+![alt text](image.png)
+
+
+2. 
