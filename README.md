@@ -1,49 +1,52 @@
-# Validador de Cadenas con ER -> AFD (C)
+# Validador de Cadenas: ER -> AFD Directo (C)
 
-Proyecto en C que recibe una expresion regular por linea de comandos, construye el arbol de sintaxis, aplica conversion directa ER -> AFD (firstpos/lastpos/followpos) y valida cadenas en modo interactivo.
+Proyecto en C que recibe una expresion regular por linea de comandos, construye el arbol de sintaxis aumentado y genera un AFD por el metodo directo (`nullable`, `firstpos`, `lastpos`, `followpos`), sin usar Thompson.
 
 ## Estructura de carpetas
 
 - `include/`
-- `include/pos_set.h`: operaciones de conjuntos de posiciones (`firstpos`, `lastpos`, `followpos`, estados del AFD).
-- `include/syntax_tree.h`: definicion de nodos del arbol y funciones de analisis del arbol.
-- `include/regex_parser.h`: parser de ER y validaciones de entrada.
-- `include/dfa.h`: estructura del AFD y funciones de construccion/validacion.
+- `include/pos_set.h`: manejo de conjuntos de posiciones (`ConjuntoPos`).
+- `include/syntax_tree.h`: nodos del arbol y funciones del algoritmo de sintaxis.
+- `include/regex_parser.h`: parser recursivo descendente para la ER.
+- `include/dfa.h`: definiciones del AFD y funciones de validacion.
 - `src/`
-- `src/parser.c`: parser recursivo para `|`, concatenacion implicita, `*` y parentesis.
-- `src/syntax_tree.c`: asignacion de posiciones y calculo de `nullable`, `firstpos`, `lastpos`, `followpos`.
-- `src/dfa.c`: algoritmo de construccion del AFD a partir de conjuntos de posiciones.
-- `src/pos_set.c`: implementacion de operaciones de conjuntos.
-- `src/main.c`: flujo principal, visualizacion e interaccion con el usuario.
+- `src/pos_set.c`: implementacion de operaciones sobre conjuntos.
+- `src/syntax_tree.c`: calculo de `anulable`, `primera_pos`, `ultima_pos` y `followpos`.
+- `src/parser.c`: parseo de ER con `|`, concatenacion implicita, `*` y parentesis.
+- `src/dfa.c`: construccion del AFD directo.
+- `src/main.c`: flujo principal y modo interactivo.
 - `Makefile`: compilacion del proyecto.
 
-## Como compilar
+## Compilar
 
 ```bash
 make
 ```
 
-Genera el ejecutable `Validador`.
+Esto genera el ejecutable `Validador`.
 
-## Como ejecutar
+## Ejecutar
 
 ```bash
 ./Validador "(a|b)*abb"
 ```
 
-Luego el programa entra a modo interactivo para validar cadenas.
-
-## ER soportada
+## Operadores soportados
 
 - Union: `|`
 - Cerradura de Kleene: `*`
 - Parentesis: `(` `)`
-- Concatenacion implicita: por ejemplo, `ab` significa `a.b`
-- Literales: caracteres imprimibles excepto operadores `| * ( )` y `#`
+- Concatenacion implicita: por ejemplo, `ab` equivale a `a.b`
 
-## Notas importantes
+## Flujo del programa
 
-- Internamente se aumenta la ER con `#` para detectar estados de aceptacion (`ER.#`).
-- Si una cadena tiene caracteres fuera del alfabeto de la ER, se marca error y se vuelve a pedir la entrada.
-- Se trabaja con manejo de memoria explicito (malloc/free) para cada estructura.
-# AnalyzerInC
+1. Parsea la expresion regular.
+2. Muestra el arbol de la ER original.
+3. Aumenta internamente la ER como `ER.#`.
+4. Calcula `followpos`.
+5. Construye y muestra el AFD.
+6. Entra en modo interactivo para validar cadenas.
+
+## Nota de memoria
+
+El proyecto usa manejo manual de memoria (`calloc`, `realloc`, `free`) y libera estructuras tanto en rutas de exito como de error.
